@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <title>MyQuotes</title>
+</head>
+<body>
+
+    <div class="card p-2" style="width: 18rem; width: 40vw; height: 40vh;">
+        <div class="card-body">
+          <h5 class="card-title">My Quotes</h5>
+          <h6 class="card-subtitle mb-2 text-body-secondary" id="auther" ></h6>
+          <p class="card-text fw-bold" id="quotes" style="font-size: 4vh;"></p>
+          
+        </div>
+        <a href="#" class="btn btn-outline-light" id="tweetMe"><i class="fa fa-twitter text-primary"></i></a>
+        <a href="#"  class="btn btn-primary" id="NewQ">New Quotes</a>
+      </div>
+
+<!-- 
+<div class="main">
+<div class="container">
+    <div class="inner"  >
+        <div class="box">
+            <p class="number">
+                <button id="tweetMe"><i class="fa fa-twitter" style="color: rgba(8, 160, 248, 0.756); background-color: aliceblue;"></i></button>
+            </p>
+            <div class="text">
+                <i class="start-quote fas fa-quote-left"></i>
+                <p id="quotes" class="quotes"></p>
+                <p id="auther" class="auther"></p>
+            </div>
+                <div id="NewQ" class="btn btn-outline-primary">New Quotes</div>
+        </div>
+    </div>
+</div>
+</div> -->
+<script>
+    
+    const quotes = document.getElementById('quotes');
+    const auther = document.getElementById('auther');
+    const newQuotes = document.getElementById('NewQ');
+    const tweetMe = document.getElementById('tweetMe');
+    let realData = "";
+    let quotesData = "";
+    const tweetNow = () => {
+        let tweetPost = `https://twitter.com/intent/tweet?text=${quotesData.text}`;
+        window.open(tweetPost);
+    }
+    
+    const getNewQuotes = () => {
+     let RNum = Math.floor(Math.random() * 10);
+     quotesData = realData[RNum]
+     quotes.innerText = `${quotesData.text}`;
+     quotesData.auther == null ? (auther.innerText = 'Unknown') :  
+     (auther.innerText = `${quotesData.auther}`);
+    }
+    const getQuotes = async () => {
+        const api = "https://type.fit/api/quotes";
+        try {
+            let data = await fetch(api);
+            realData =await data.json();
+            getNewQuotes();
+            // console.log(realData);
+        } catch (error) {
+   
+        }
+    };
+    tweetMe.addEventListener('click',tweetNow);
+    newQuotes.addEventListener('click',getNewQuotes);
+
+    getQuotes(); 
+    
+</script>
+<script src="https://kit.fontawesome.com/628c0a4518.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js">
+     AOS.init();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
